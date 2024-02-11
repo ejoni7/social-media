@@ -1,0 +1,9 @@
+{% extends 'topic/master.html' %}
+{% block content %}
+    {% for query in mostreact_list %}
+        <p>{{ query.day }}</p>
+        <p><a href="{% url 'topic:public_topic' query.topic_id query.topic_slug %}">{{ query.topic_title }}</a></p>
+    {% endfor %}
+    {% include "topic/includes/paginate_page.html"%}
+
+{% endblock %}

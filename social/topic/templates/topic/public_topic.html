@@ -1,0 +1,107 @@
+{% extends 'topic/master.html' %}
+{% block content %}
+    {% load thumbnail %}
+    <div style="background-color: #400a0a">
+        {% thumbnail topic.user.image "75x75" as img %}
+            <p>self emage: <img src="{{ img.url }}" alt="عکس پروفایل"></p>
+        {% endthumbnail %}
+        <p>title:{{ topic.title }}</p>
+        <p>series:{{ topic.series }}</p>
+        <p>user:{{ topic.user }}</p>
+        <p>description:{{ topic.description }}</p>
+        {% if topic.image %}
+            <p>image: <img src="{{ topic.image.url }}" alt="عکس تاپیک"></p>
+        {% endif %}
+
+        <p>date:{{ topic.date }}</p>
+        <p>block:{{ topic.block }}</p>
+        <p>like:<span id="like_num">{{ topic.total_like }}</span></p>
+        <p>dislike:<span id="dislike_num">{{ topic.total_dislike }}</span></p>
+         <p>total_response: {{ topic.total_responses }}</p>
+        <form action="{% url 'topic:report_top' topic.id %}" method="POST">
+            {% csrf_token %}
+            <button type="submit">گزارش تاپیک</button>
+        </form>
+    {% if user.is_authenticated %}
+                <div>
+                    {% if topic.id in topic_like %}
+                        <button type="button" style="background-color:#ff01bd"><a href="{% url 'topic:like_topic' topic.id like  %}">like</a></button>
+                    {% else %}
+                        <button type="button"><a href="{% url 'topic:like_topic' topic.id like  %}">like</a></button>
+                    {% endif %}
+                    {% if topic.id in topic_dislike %}
+                        <button type="button" style="background-color:#FF01BD"><a href="{% url 'topic:like_topic' topic.id dislike  %}">dislike</a>
+                        </button>
+                    {% else %}
+                        <button type="button"><a href="{% url 'topic:like_topic' topic.id dislike  %}">dislike</a></button>
+                    {% endif %}
+                    <button type="button" id="replay">replay</button>
+                </div>
+            {% endif %}
+
+    </div>
+    <div>
+    </div>
+    <div>
+        {% for top in page_obj %}
+            <p>user: {{ top.user.username }}</p>
+            <p>description: {{ top.description }}</p>
+            <p>image: {{ top.image }}</p>
+            <p>date: {{ top.date }}</p>
+            <p>total_like: {{ top.total_like }}</p>
+            <p>total_dislike: {{ top.total_dislike }}</p>
+            <p>
+            <form action="{% url 'topic:report_rec' topic.id top.id %}" method="POST">
+                {% csrf_token %}
+                <button type="submit">گزارش تاپیک</button>
+            </form></p>
+            {% if user.is_authenticated %}
+                <div>
+                    {% if top.id in context_liked %}
+                        <button type="button" style="background-color:#FF01BD"><a href="{% url 'topic:like' topic.id like top.id %}">like</a></button>
+                    {% else %}
+                        <button type="button"><a href="{% url 'topic:like' topic.id like top.id %}">like</a></button>
+                    {% endif %}
+                    {% if top.id in context_disliked %}
+                        <button type="button" style="background-color:#FF01BD"><a href="{% url 'topic:like' topic.id dislike top.id %}">dislike</a>
+                        </button>
+                    {% else %}
+                        <button type="button"><a href="{% url 'topic:like' topic.id dislike top.id %}">dislike</a></button>
+                    {% endif %}
+                    <button type="button" id="replay">replay</button>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+
+
+    {% if user.is_authenticated %}
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="hidden" name="res" value="{{ topic.id }}">
+            <button type="submit">ارسال نظر</button>
+        </form>
+    {% endif %}
+        {% include "topic/includes/paginate_page.html"%}
+
+{#    <div>#}
+{#     <ul class="pagination">#}
+{#        {% if responses.has_previous %}#}
+{#        <li class="page-item "><a class="page-link" href="{{ topic.get_absolute_url }}?page={{ responses.previous_page_number }}"#}
+{#                                  aria-label="Previous">قبلی</a></li>#}
+{#        <li class="page-item "><a class="page-link" href="{{ topic.get_absolute_url }}?page={{ responses.previous_page_number }}"#}
+{#                                  aria-label="Previous">{{ responses.previous_page_number }}</a></li>#}
+{#        {% endif %}#}
+{##}
+{#         <li class="page-item active"><a class="page-link" href="{{ topic.get_absolute_url }}?page={{ responses.number }}" aria-label="next">{{ responses.number }}</a></li>#}
+{##}
+{#        {% if responses.has_next %}#}
+{#        <li class="page-item "><a class="page-link" href="{{ topic.get_absolute_url }}?page={{ responses.next_page_number }}"#}
+{#                                  aria-label="next">{{ responses.next_page_number }}</a></li>#}
+{#        <li class="page-item "><a class="page-link" href="{{ topic.get_absolute_url }}?page={{ responses.next_page_number }}"#}
+{#                                  aria-label="next">بعدی</a></li>#}
+{#        {% endif %}#}
+{#    </ul>#}
+{#    </div>#}
+{% endblock %}

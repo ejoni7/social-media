@@ -1,0 +1,8 @@
+{%extends 'topic/master.html'%}
+{% block content %}
+<form method="POST" enctype="multipart/form-data">
+  {% csrf_token %}
+    {{ form.as_p }}
+  <button type="submit">ایجاد اگهی </button>
+</form>
+{% endblock %}

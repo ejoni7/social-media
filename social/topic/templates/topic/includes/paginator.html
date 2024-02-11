@@ -1,0 +1,20 @@
+{% load main_filter %}
+<nav aria-label="Page navigation example">
+    <ul class="pagination">
+        {% if topics.has_previous %}
+        <li class="page-item "><a class="page-link" href="{{ where }}{% get_filters 1  'page' request.GET.urlencode %}"
+                                  aria-label="Previous">اولین</a></li>
+        <li class="page-item "><a class="page-link" href="{{ where }}{% get_filters topics.previous_page_number  'page' request.GET.urlencode %}"
+                                  aria-label="Previous">{{ topics.previous_page_number }}</a></li>
+        {% endif %}
+
+         <li class="page-item active"><a class="page-link" href="{{ where }}{% get_filters topics.number  'page' request.GET.urlencode %}" aria-label="next">{{ topics.number }}</a></li>
+
+        {% if topics.has_next %}
+        <li class="page-item "><a class="page-link" href="{{ where }}{% get_filters topics.next_page_number  'page' request.GET.urlencode %}"
+                                  aria-label="next">{{ topics.next_page_number }}</a></li>
+        <li class="page-item "><a class="page-link" href="{{ where }}{% get_filters topics.paginator.num_pages  'page' request.GET.urlencode %}"
+                                  aria-label="next">اخرین</a></li>
+        {% endif %}
+    </ul>
+</nav>

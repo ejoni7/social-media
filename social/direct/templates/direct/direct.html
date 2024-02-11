@@ -1,0 +1,24 @@
+{%extends 'topic/master.html'%}
+{% block content %}
+{% if not  roomate.block %}
+<form action="{% url 'direct:block' roomate.id%}" method="POST">
+    {% csrf_token%}
+    <button type="submit"> بلاک کاربر</button>
+</form>
+ {% for direct in directs%}
+    <ul>
+      <li>{{direct.he_she}}</li>
+      <li>{{direct.message}}</li>
+  </ul>
+ {% endfor %}
+<form method="POST">
+  {% csrf_token %}
+    {{form.as_p}}
+  <button type="submit">ارسال پاسخ </button>
+</form>
+{% else %}
+<h1>اتاق گفتوگو توسط یکی از کاربران بلاک شده است </h1>
+{% endif %}
+{% endblock %}
+
+

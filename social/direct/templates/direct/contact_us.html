@@ -1,0 +1,12 @@
+{%extends 'topic/master.html'%}
+{% block content %}
+<form method="POST">
+  {% csrf_token %}
+    <input type="text"   name="subject" placeholder="موضوع">
+    <input type="email" {% if user.is_authenticated %} value={{ user.email }}{% endif %} required  oninvalid="alert('پر کردن فیلدهای مقابل اجباریست');" name="email" placeholder="ایمیل">
+  <textarea   required oninvalid="alert('پر کردن فیلدهای مقابل اجباریست');"  name="contain" placeholder="توضیحات" cols="30" rows="10"></textarea>
+  <button type="submit">ارسال ایمیل</button>
+</form>
+    <h3>شماره تماس </h3>
+    <p>09910223229</p>
+{% endblock %}

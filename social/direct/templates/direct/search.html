@@ -1,0 +1,15 @@
+{%extends 'topic/master.html'%}
+{% block content %}
+<form method="POST">
+    {% csrf_token %}
+
+    <label> لیست افراد پیدا شده </label><br>
+    <select class="form-control" name="search">
+        <option value="">__انتخاب کنید __</option>
+        {%for user in users%}
+        <option value="{{user.id}}"> {{user.username}}</option>
+        {% endfor %}
+    </select><br>
+    <button type="submit"> انتخاب شخص</button>
+</form>
+{% endblock %}

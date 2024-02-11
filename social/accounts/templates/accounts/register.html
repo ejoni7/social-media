@@ -1,0 +1,15 @@
+{% extends "topic/master.html"%}
+{% block content %}
+    <h2> فرم ثبت نام </h2>
+  <form method="POST" >
+    {% csrf_token %}
+    {{form.as_p}}
+     <button type="submit">ثبت نام</button>
+</form>
+
+
+ <p>مشخصات خود را بدقت وارد کنید، نام کاربری و شماره همراه شما منحصر به فرد هستن، بازیابی رمز عبور هم تنها از طریق ایمیل انجام میشود</p>
+    <p>حساب کاربری دارید؟ <a href="{% url 'accounts:login_costom'%}">کلیک کنید</a>
+</p><p>شما با ثبت نام در سایت موافقت خود را با <a href="{% url 'accounts:rules' %}">قوانین و مقررات سایت</a> اعلام میکنید</p>
+{% endblock%}
+

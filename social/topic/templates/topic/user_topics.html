@@ -1,0 +1,22 @@
+{%extends 'topic/master.html'%}
+{% block content %}
+    {% if user.is_authenticated %}
+     <label ><a href="{% url 'direct:direct' loser.id user.id%}">{{loser.username}} </a>تاپیکهای </label>
+    {% endif %}
+<table>
+
+    <thead>
+ <th>عنوان</th>
+ <th>تاریخ درج تاپیک</th>
+</thead>
+    <tbody>
+     {%for topic in page_obj%}
+    <tr>
+        <td><a href='{{ topic.get_absolute_url }}'>{{topic.title}}</a></td>
+        <td>{{topic.date}}</td>
+    </tr>
+     {% endfor %}
+    </tbody>
+</table>
+    {% include "topic/includes/paginate_page.html"%}
+{% endblock %}

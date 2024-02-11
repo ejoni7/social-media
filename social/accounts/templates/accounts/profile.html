@@ -1,0 +1,41 @@
+{% extends 'topic/master.html' %}
+{% block content %}
+    {% load thumbnail %}
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div style="background-color : aqua;height: 40px;font-size: 30px;margin-top: 25px;width: 400px; margin-left: 550px">
+            نمایش پروفایل
+        </div>
+        <ul id="profile">
+            <li style="padding:10px">{% thumbnail user.image '75x75' crop="center" as img %}
+                <img src="{{ img.url }}" alt="عکس پروفایل">
+            {% endthumbnail %}</li>
+            <li style="padding:10px"><input type="text" style="padding: 5px" name="email"
+                                            value="{% if user.email %}{{ user.email }}{% endif %}" placeholder="ایمیل">
+            </li>
+            <li style="padding:10px ; "><input type="text" style="padding: 5px" name="username"
+                                               value="{{ user.username }}" placeholder="نام کاربری"></li>
+            <li style="padding:10px"><input type="text" style="padding: 5px" name="bio" placeholder="بیو"
+                                            value="{% if user.bio %}{{ user.bio }}{% endif %}"></li>
+            <li style="padding:10px"><input type="file" style="padding: 5px" name="image" placeholder="عکس">
+                {{ user.image }}</li>
+            <li>
+                <label> جنسیت </label>
+                <select class="form-control" name="sex">
+                    <option value="">__انتخاب کنید __</option>
+                    <option value="M" {% if user.sex == 'M' %} selected {% endif %}> مرد</option>
+                    <option value="F" {% if user.sex == 'F' %} selected {% endif %}> زن</option>
+                </select>
+            </li>
+
+            <li><a href="{% url 'accounts:password_check' %}"> تغییر پسورد </a></li>
+            <li style="padding:10px ; " hidden id="password_check"><input type="text" style="padding: 5px"></li>
+            <li>
+                <button id='sub' type="submit"> اعمال تغیرات</button>
+            </li>
+
+        </ul>
+
+
+    </form>
+{% endblock %}

@@ -1,0 +1,11 @@
+{%extends 'topic/master.html'%}
+{% block content %}
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <ul style="margin : 100px ; padding: 10px">
+        {{ form.as_p }}
+        <li style="margin-top: 15px"><button type="submit">ایجاد تاپیک</button> </li>
+    </ul>
+</form>
+
+{% endblock %}

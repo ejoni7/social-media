@@ -1,0 +1,12 @@
+{%extends 'topic/master.html'%}
+{% block content %}
+<ul>
+    {% for person in persons %}
+   <li><a href="{% url 'direct:direct' person.id user.id %}">{{person.username}}</a></li>
+        {% if person in not_seens %}
+           <span>پیام ناخوانده</span>
+        {% endif %}
+{% endfor%}
+</ul>
+
+{% endblock %}

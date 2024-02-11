@@ -1,0 +1,63 @@
+{% extends "topic/master.html"%}
+{% block content %}
+<h1>تعداد بازدید : {{ views }}</h1>
+{% if user.is_authenticated %}
+<h1>تعداد اکشن:{{ user.action }}</h1>
+{% if user.action  %}
+    <a href="{% url 'direct:create_advertise' %}"><h1>اکشن دارد</h1></a>
+{% endif %}
+{% endif %}
+
+<table>
+    <thead>
+ <th>نام کاربری</th>
+ <th>تاپیک</th>
+</thead>
+    <tbody>
+     {%for topic in topics%}
+    <tr>
+        <td><a href="{% url 'topic:user_topics' topic.user.id %}">{{topic.user.username}}</a></td>
+        <td><a href="{{ topic.get_absolute_url }}">{{topic.title}} </a> </td>
+    </tr>
+     {% endfor %}
+    </tbody>
+</table>
+    {% include "topic/includes/paginator.html"%}
+{% endblock%}
+{% block alarms %}
+     {% if user.is_authenticated %}
+               {% if new %}
+                <div class="more_button" >پیام جدید<i >     {{ new }}</i></div>
+               {% endif %}
+            <div class="more_button" ><a href="{% url 'direct:direct_list'%}">بخش دایرکت</a></div>
+           {% endif%}
+{% endblock %}
+{% block log %}
+    {% if where %}
+               <h2> تاپیک های پربازدید</h2>
+            <div class="left_col_box">
+                {% for most in mosts %}
+                  <h3>{{ most.day }}</h3>
+                    <a href="{% url 'topic:public_topic' most.topic_id most.topic_slug %}"><span>{{ most.topic_title }}</span></a>
+                {% endfor %}
+                <p><a href="{% url 'topic:most_reacts' %}"> صغحه تاپیکهای پربازدید </a></p>
+
+                <div class="blog_box">
+
+                    Suspendisse vitae neque eget ante tristique vestibulum. Pellentesque vitae magna.<br/>
+                    Posted by in <a href="#"><span>Videos</span></a><br/>
+                    14 December 2020
+                </div>
+
+            </div>
+
+            {% endif %}
+{% endblock %}
+{% block footer %}
+            {% load main_filter %}
+            {% for foo in series %}
+                 <a href="{{ where }}{% get_filters topics.number  'page' request.GET.urlencode %}&sere={{ foo }}">{{ foo.name }}</a> |
+            {% endfor %}
+            <br/>
+             <a href="{{ where }}"><strong>حذف فیلترها</strong></a>
+{% endblock %}

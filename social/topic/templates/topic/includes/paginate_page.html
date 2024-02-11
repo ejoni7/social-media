@@ -1,0 +1,18 @@
+<div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="{{ where }}?page=1">اولین</a>
+            <a href="{{ where }}?page={{ page_obj.previous_page_number }}">قبلی</a>
+        {% endif %}
+        <a href="{{ where }}?page={{ page_obj.number }}">{{ page_obj.number }}</a>
+{#        <span class="current">#}
+{#            a#}
+{#             {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.#}
+{#        </span>#}
+
+        {% if page_obj.has_next %}
+            <a href="{{ where }}?page={{ page_obj.next_page_number }}">بعدی</a>
+            <a href="{{ where }}?page={{ page_obj.paginator.num_pages }}">اخرین </a>
+        {% endif %}
+    </span>
+    </div>

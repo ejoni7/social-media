@@ -1,0 +1,33 @@
+{%extends 'topic/master.html'%}
+{% block content %}
+   <div> {% if user.action %}
+        <p>تعداد اگهی های قابل ایجاد شما: {{ user.action }}</p>
+        <a href="{% url 'direct:create_advertise'  %}">ایجاد اگهی</a>
+        {% else %}
+        <p>برای ایجاد اگهی باید اکشن کسب کرده باشید، برای کسب اکشن میتوانید با عنوان کردن مساله پر بازخورد و کسب بیشترین بازخورد در روز سه اکشن کسب کنید</p>
+    {% endif %}
+   </div>
+{% for adv in page_obj %}
+ <ul>
+ <li>{{ adv.user.username }}</li>
+ <li>{{ adv.subject }}</li>
+ <li>{{ adv.text }}</li>
+ {% if adv.image %}
+ <li><img src="{{ adv.image.url}}" style="width: 100px " alt="عکس اگهی"></li>
+ {% endif %}
+
+ <li>{{ adv.create }}</li>
+     {% if user.is_authenticated %}
+     <li><a href="{% url 'direct:direct' user.id  adv.user.id %}">{{ adv.user}}دایرکت:</a></li>
+         {% if adv.user_id == user.id %}
+             <a href="{% url 'direct:modify_advertise' adv.id %}">ویرایش اگهی</a>
+         {% endif %} 
+         {% else %}
+         <p><a href="{% url 'accounts:register' %}">لینک ثبت نام</a>برای ارتباط با کاربر لطفا ثبت نام کنید</p>
+     {% endif %}
+
+ </ul>
+{% endfor %}
+        {% include "topic/includes/paginate_page.html"%}
+
+{% endblock %}
